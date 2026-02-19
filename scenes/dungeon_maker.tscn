@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://db68dosdln51t"]
+[gd_scene load_steps=9 format=3 uid="uid://db68dosdln51t"]
 
 [ext_resource type="Script" uid="uid://dj56c442d6b1u" path="res://scripts/tilemaplayer.gd" id="1_2ottj"]
 [ext_resource type="Script" uid="uid://bsbr5u8usujh8" path="res://scripts/dungeonmaker.gd" id="1_g6ugy"]
 [ext_resource type="Texture2D" uid="uid://c5q31prf0jdmq" path="res://assets/Dungeon Tile Person.png" id="2_8y36s"]
 [ext_resource type="Script" uid="uid://cd1h1ssti8sep" path="res://scripts/gridoverlay.gd" id="3_1aoc5"]
 [ext_resource type="Script" uid="uid://bdhpyi5mjye7i" path="res://scripts/hoveroverlay.gd" id="5_8y36s"]
+[ext_resource type="Script" uid="uid://bhiay03g8pxkc" path="res://scripts/maparea.gd" id="6_maparea"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vrbr5"]
 texture = ExtResource("2_8y36s")
@@ -506,9 +507,15 @@ text = "Borrar Mapa"
 layout_mode = 2
 text = "Guardar Mapa"
 
+[node name="ButtonLoad" type="Button" parent="HSplitContainer/LeftArea"]
+layout_mode = 2
+text = "Cargar Mapa"
+
 [node name="MapArea" type="Control" parent="HSplitContainer"]
+clip_contents = true
 layout_mode = 2
 mouse_filter = 2
+script = ExtResource("6_maparea")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="HSplitContainer/MapArea"]
 tile_set = SubResource("TileSet_1aoc5")

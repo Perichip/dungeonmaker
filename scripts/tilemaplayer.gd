@@ -7,8 +7,8 @@ var selected_atlas_coords : Vector2i
 var is_painting := false
 var is_erasing := false
 
-const MAP_WIDTH := 33
-const MAP_HEIGHT := 22
+const MAP_WIDTH := 100
+const MAP_HEIGHT := 100
 
 func set_selected_tile(source_id:int, atlas_coords:Vector2i):
 	selected_source_id = source_id
