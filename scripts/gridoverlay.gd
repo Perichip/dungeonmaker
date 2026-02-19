@@ -1,8 +1,8 @@
 extends Node2D
 
-const MAP_WIDTH := 65
-const MAP_HEIGHT := 45
-const CELL_SIZE := 16  # ⚠️ Cambia según tu tileset
+const MAP_WIDTH := 33
+const MAP_HEIGHT := 22
+const CELL_SIZE := 64  # ⚠️ Cambia según tu tileset
 @onready var tilemap = $"../TileMapLayer"
 
 

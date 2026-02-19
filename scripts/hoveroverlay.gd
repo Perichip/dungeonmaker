@@ -3,8 +3,8 @@ extends Node2D
 @onready var tilemap: TileMapLayer = $"../TileMapLayer"
 @onready var map_area: Control = $".."
 
-const MAP_WIDTH := 65
-const MAP_HEIGHT := 45
+const MAP_WIDTH := 33
+const MAP_HEIGHT := 22
 
 var hover_cell : Vector2i = Vector2i(-1, -1)
 var cell_size : int
