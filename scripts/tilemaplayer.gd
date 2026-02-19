@@ -4,6 +4,7 @@ extends TileMapLayer
 
 var selected_source_id : int = -1
 var selected_atlas_coords : Vector2i
+var selected_alternative_tile := 0
 var is_painting := false
 var is_erasing := false
 
@@ -11,8 +12,13 @@ const MAP_WIDTH := 100
 const MAP_HEIGHT := 100
 
 func set_selected_tile(source_id:int, atlas_coords:Vector2i):
+	if selected_source_id == source_id and selected_atlas_coords == atlas_coords:
+		selected_alternative_tile = (selected_alternative_tile + 1) % 4
+		return
+		
 	selected_source_id = source_id
 	selected_atlas_coords = atlas_coords
+	selected_alternative_tile = 0
 
 func _input(event):
 
@@ -36,6 +42,20 @@ func _input(event):
 		if is_erasing:
 			erase_at_mouse(event.position)
 
+	if event is InputEventScreenTouch:
+		if event.pressed and not _is_multitouch_navigation():
+			if is_erasing:
+					erase_at_mouse(event.position)
+			else:
+				paint_at_mouse(event.position)
+
+	if event is InputEventScreenDrag:
+		if _is_multitouch_navigation():
+			return
+		if is_erasing:
+			erase_at_mouse(event.position)
+		else:
+			paint_at_mouse(event.position)
 func paint_at_mouse(global_pos: Vector2):
 
 	if not map_area.get_global_rect().has_point(global_pos):
@@ -51,7 +71,13 @@ func paint_at_mouse(global_pos: Vector2):
 	if cell.x >= MAP_WIDTH or cell.y >= MAP_HEIGHT:
 		return
 
-	set_cell(cell, selected_source_id, selected_atlas_coords)
+
+	set_cell(cell, selected_source_id, selected_atlas_coords, selected_alternative_tile)
+
+
+func set_erase_mode(enabled: bool) -> void:
+	is_erasing = enabled
+	is_painting = false
 
 func erase_at_mouse(global_pos: Vector2):
 
@@ -66,3 +92,9 @@ func erase_at_mouse(global_pos: Vector2):
 		return
 
 	erase_cell(cell)
+
+
+func _is_multitouch_navigation() -> bool:
+	if map_area.has_method("is_multitouch_active"):
+		return map_area.is_multitouch_active()
+	return false

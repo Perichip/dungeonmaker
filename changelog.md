@@ -4,6 +4,78 @@
 
 ---- 
 
+## [0.1.5] – Soporte táctil y herramientas de edición móvil
+
+### Added
+#### 📱 Navegación táctil (Fase A)
+- Implementado soporte multitouch en `MapArea`.
+- Navegación mediante gestos:
+  - Pan con un dedo.
+  - Pinch-zoom con dos dedos.
+- Convivencia total con el flujo de mouse existente.
+- Rastreo de toques activos para distinguir navegación de edición.
+
+---
+
+#### ✏ Pintado y borrado táctil
+- Añadido soporte de edición con:
+  - `InputEventScreenTouch`
+  - `InputEventScreenDrag`
+- Pintado y borrado funcional en dispositivos táctiles.
+- Prevención de conflictos cuando hay navegación multitouch activa.
+
+---
+
+#### 🔄 Rotación por re-selección de tile
+- Implementada rotación al re-seleccionar el mismo tile en la paleta.
+- Ciclo de `alternative_tile` en 4 estados (0–3).
+- El valor seleccionado se aplica automáticamente al pintar.
+- Permite variantes visuales sin cambiar de tile base.
+
+---
+
+#### 🛠 Herramienta de modo Pintar / Borrar
+- Añadido botón de herramienta:
+  - “Modo: Pintar”
+  - “Modo: Borrar”
+- Permite edición sin depender del click derecho.
+- Optimizado para uso en Android / Tablet.
+
+---
+
+### Changed
+#### 🎯 Adaptación UX para dispositivos táctiles
+- Desactivado `HoverOverlay` en dispositivos touch.
+- Evita comportamiento de hover artificial en entornos táctiles.
+- Interacción más natural en móvil y tablet.
+
+---
+
+### Architecture
+- `MapArea` amplía responsabilidad para:
+  - Gestión de input multitouch.
+  - Coordinación entre navegación y edición.
+- `TileMapLayer` ahora soporta eventos táctiles además de mouse.
+- Preparado para expansión futura hacia:
+  - UI completamente optimizada para tablet.
+  - Gestos avanzados.
+  - Herramientas adicionales móviles.
+
+---
+
+### Result
+Dungeon Maker ahora soporta:
+
+- Edición completa en PC.
+- Navegación multitouch en dispositivos táctiles.
+- Pintado y borrado sin necesidad de click derecho.
+- Rotación rápida de tiles desde la paleta.
+
+El editor evoluciona de prototipo PC a herramienta híbrida PC + móvil.
+
+
+----
+
 ## [0.1.0] – Zoom, guardado JSON y expansión de mapa
 
 ### Added

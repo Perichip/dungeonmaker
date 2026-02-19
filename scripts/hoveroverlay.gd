@@ -12,6 +12,10 @@ var cell_size : int
 func _ready():
 	cell_size = tilemap.tile_set.tile_size.x
 
+	if DisplayServer.is_touchscreen_available():
+		visible = false
+		set_process(false)
+		
 func _process(_delta):
 
 	var mouse_pos = get_viewport().get_mouse_position()

@@ -495,9 +495,9 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 4
 
-[node name="ButtonUndo" type="Button" parent="HSplitContainer/LeftArea"]
+[node name="ButtonMode" type="Button" parent="HSplitContainer/LeftArea"]
 layout_mode = 2
-text = "Deshacer"
+text = "Modo: Pintar"
 
 [node name="ButtonClear" type="Button" parent="HSplitContainer/LeftArea"]
 layout_mode = 2

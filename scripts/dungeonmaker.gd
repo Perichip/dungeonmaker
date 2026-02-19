@@ -2,6 +2,7 @@ extends Control
 
 @onready var tilemap = $HSplitContainer/MapArea/TileMapLayer
 @onready var palette_container = $HSplitContainer/LeftArea/ScrollContainer/Palette
+@onready var button_mode: Button = $HSplitContainer/LeftArea/ButtonMode
 @onready var button_save: Button = $HSplitContainer/LeftArea/ButtonSave
 @onready var button_load: Button = $HSplitContainer/LeftArea/ButtonLoad
 
@@ -10,13 +11,16 @@ const DEFAULT_FILENAME := "mapa.json"
 
 var save_dialog: FileDialog
 var load_dialog: FileDialog
+var is_erase_mode := false
 
 func _ready():
 	generate_palette()
 	_ensure_maps_dir()
 	_setup_file_dialogs()
+	button_mode.pressed.connect(_on_mode_pressed)
 	button_save.pressed.connect(_on_save_pressed)
 	button_load.pressed.connect(_on_load_pressed)
+	_refresh_mode_button()
 
 
 func _ensure_maps_dir() -> void:
@@ -24,6 +28,7 @@ func _ensure_maps_dir() -> void:
 	var err := DirAccess.make_dir_recursive_absolute(maps_dir_abs)
 	if err != OK and err != ERR_ALREADY_EXISTS:
 		push_warning("No se pudo crear el directorio de mapas: %s" % MAPS_DIR)
+
 
 func _setup_file_dialogs() -> void:
 	save_dialog = FileDialog.new()
@@ -44,6 +49,7 @@ func _setup_file_dialogs() -> void:
 	load_dialog.file_selected.connect(_on_load_file_selected)
 	add_child(load_dialog)
 
+
 func generate_palette():
 	var tileset = tilemap.tile_set
 
@@ -51,19 +57,17 @@ func generate_palette():
 		var source = tileset.get_source(source_id)
 
 		if source is TileSetAtlasSource:
-
 			var atlas_size = source.get_atlas_grid_size()
 
 			for x in range(atlas_size.x):
 				for y in range(atlas_size.y):
-
 					var coords = Vector2i(x, y)
 
 					if source.has_tile(coords):
 						create_tile_button(source_id, coords)
 
 
-func create_tile_button(source_id:int, atlas_coords:Vector2i):
+func create_tile_button(source_id: int, atlas_coords: Vector2i):
 	var btn = TextureButton.new()
 
 	var source = tilemap.tile_set.get_source(source_id)
@@ -83,6 +87,15 @@ func create_tile_button(source_id:int, atlas_coords:Vector2i):
 
 	palette_container.add_child(btn)
 
+
+func _on_mode_pressed() -> void:
+	is_erase_mode = not is_erase_mode
+	tilemap.set_erase_mode(is_erase_mode)
+	_refresh_mode_button()
+
+
+func _refresh_mode_button() -> void:
+	button_mode.text = "Modo: Borrar" if is_erase_mode else "Modo: Pintar"
 
 func _on_save_pressed() -> void:
 	save_dialog.current_dir = MAPS_DIR
